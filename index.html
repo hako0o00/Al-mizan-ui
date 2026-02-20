@@ -1,0 +1,2517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Service Contractant Portal — EL-MIZAN (UI Mock)</title>
+  <style>
+    :root{
+      /* Palette */
+      --g-900:#1C4532;   /* deep evergreen */
+      --g-500:#97A675;   /* sage */
+      --w:#FFFFFF;       /* white */
+      --g-050:#D6EAD4;   /* pale mint */
+      --t-200:#81B0B2;   /* soft teal */
+      --t-700:#00738C;   /* deep teal */
+
+      /* Neutrals (derived, still minimal) */
+      --text:#0f1f16;
+      --muted:#4b6257;
+      --line:rgba(28,69,50,.16);
+
+      --shadow: 0 10px 30px rgba(28,69,50,.10);
+      --shadow-soft: 0 6px 18px rgba(28,69,50,.10);
+
+      --r-lg:18px;
+      --r-md:14px;
+      --r-sm:12px;
+
+      --pad:16px;
+      --pad-lg:22px;
+
+      --focus: 0 0 0 4px rgba(0,115,140,.18);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 18% 0%, rgba(214,234,212,.70), transparent 55%),
+        radial-gradient(900px 600px at 90% 10%, rgba(129,176,178,.32), transparent 60%),
+        var(--w);
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:focus, button:focus, input:focus, select:focus, textarea:focus, summary:focus{ outline:none; box-shadow:var(--focus); border-color:rgba(0,115,140,.55)!important; }
+
+    /* Layout */
+    .layout{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      min-height:100vh;
+    }
+    .sidebar{
+      position:sticky; top:0;
+      height:100vh;
+      padding:18px 16px;
+      background: linear-gradient(180deg, rgba(28,69,50,.98), rgba(28,69,50,.92));
+      color: var(--w);
+      border-right:1px solid rgba(255,255,255,.10);
+      overflow:auto;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius: var(--r-md);
+      background: rgba(255,255,255,.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+      margin-bottom:14px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--t-700), rgba(129,176,178,.95));
+      display:grid; place-items:center;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      font-weight:800;
+    }
+    .brand h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      line-height:1.1;
+    }
+    .brand small{
+      display:block;
+      opacity:.86;
+      letter-spacing:0;
+      text-transform:none;
+      font-weight:600;
+      margin-top:2px;
+      font-size:12px;
+    }
+
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:10px;
+    }
+    .nav .group-title{
+      margin:14px 10px 6px;
+      font-size:11px;
+      opacity:.78;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .nav a{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      opacity:.92;
+      transition:.14s ease;
+      border:1px solid transparent;
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.10);
+      opacity:1;
+      transform: translateY(-1px);
+    }
+    .nav a.active{
+      background: linear-gradient(135deg, rgba(0,115,140,.30), rgba(255,255,255,.08));
+      border-color: rgba(129,176,178,.32);
+      opacity:1;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .nav .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(255,255,255,.35);
+    }
+    .nav a.active .dot{ background: var(--t-200); box-shadow: 0 0 0 4px rgba(129,176,178,.15); }
+    .nav .pill{
+      margin-left:auto;
+      font-size:12px;
+      padding:3px 8px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .shell{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+    }
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .crumbs{
+      min-width:260px;
+    }
+    .crumbs h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.01em;
+    }
+    .crumbs .path{
+      margin-top:2px;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .search{
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      max-width:700px;
+      margin:0 auto;
+    }
+    .search input{
+      width:100%;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(214,234,212,.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    }
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .select{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.75);
+    }
+    .select select{
+      border:0;
+      background:transparent;
+      font-weight:700;
+      color:var(--text);
+      outline:none;
+    }
+    .iconbtn{
+      width:40px; height:40px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.75);
+      display:grid; place-items:center;
+      cursor:pointer;
+      transition:.14s ease;
+      box-shadow: var(--shadow-soft);
+    }
+    .iconbtn:hover{ transform: translateY(-1px); border-color: rgba(0,115,140,.30); }
+    .avatar{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:6px 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.75);
+      box-shadow: var(--shadow-soft);
+    }
+    .avatar .pic{
+      width:30px; height:30px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--g-900), var(--t-700));
+    }
+    .avatar b{ font-size:13px; }
+    .avatar small{ display:block; color:var(--muted); font-size:11px; margin-top:2px; }
+
+    .content{
+      padding: 18px;
+      max-width: 1220px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Page routing */
+    .page{ display:none; }
+    .page.active{ display:block; }
+
+    /* Components */
+    .grid{ display:grid; gap:14px; }
+    .grid.cols-2{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.cols-3{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid.cols-4{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+
+    .card{
+      background: rgba(255,255,255,.82);
+      border:1px solid var(--line);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding: 14px var(--pad-lg);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(214,234,212,.46), rgba(255,255,255,.70));
+    }
+    .card .hd h3{
+      margin:0;
+      font-size:14px;
+      letter-spacing:-.01em;
+    }
+    .card .bd{ padding: var(--pad-lg); }
+    .muted{ color:var(--muted); }
+    .hint{ font-size:12px; color:var(--muted); margin-top:4px; }
+    .row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .spacer{ flex:1; }
+
+    .btn{
+      border:1px solid transparent;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight:800;
+      letter-spacing:-.01em;
+      cursor:pointer;
+      transition:.14s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+      user-select:none;
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, var(--t-700), rgba(0,115,140,.92));
+      color:var(--w);
+      box-shadow: 0 12px 22px rgba(0,115,140,.18);
+    }
+    .btn.primary:hover{ transform: translateY(-1px); filter:saturate(1.05); }
+    .btn.secondary{
+      background: rgba(214,234,212,.65);
+      border-color: rgba(151,166,117,.35);
+      color: var(--g-900);
+    }
+    .btn.secondary:hover{ transform: translateY(-1px); border-color: rgba(0,115,140,.24); }
+    .btn.ghost{
+      background: rgba(255,255,255,.70);
+      border-color: var(--line);
+      color: var(--text);
+    }
+    .btn.ghost:hover{ transform: translateY(-1px); border-color: rgba(0,115,140,.24); }
+    .btn.danger{
+      background: rgba(255,255,255,.75);
+      border-color: rgba(200,30,30,.22);
+      color: #8b1d1d;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(214,234,212,.55);
+      font-size:12px;
+      font-weight:800;
+      color: var(--g-900);
+    }
+    .badge.green{ background: rgba(214,234,212,.65); }
+    .badge.blue{ background: rgba(129,176,178,.20); border-color: rgba(0,115,140,.20); color: var(--t-700); }
+    .badge.gray{ background: rgba(255,255,255,.70); color: var(--muted); }
+    .badge.warn{ background: rgba(151,166,117,.20); border-color: rgba(151,166,117,.30); color: var(--g-900); }
+    .badge.lock{ background: rgba(28,69,50,.08); border-color: rgba(28,69,50,.18); color: var(--g-900); }
+
+    .kpi{
+      padding: 18px;
+      border-radius: var(--r-lg);
+      border:1px solid var(--line);
+      background:
+        radial-gradient(600px 260px at 20% 10%, rgba(214,234,212,.70), transparent 62%),
+        rgba(255,255,255,.78);
+      box-shadow: var(--shadow-soft);
+    }
+    .kpi b{ font-size:24px; letter-spacing:-.03em; }
+    .kpi .label{ color:var(--muted); font-weight:700; font-size:12px; margin-top:4px; }
+    .kpi .trend{ margin-top:10px; font-size:12px; font-weight:800; color: var(--t-700); }
+
+    /* Tables */
+    table{ width:100%; border-collapse:separate; border-spacing:0; }
+    th,td{ text-align:left; padding:12px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th{ font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+    tr:hover td{ background: rgba(214,234,212,.20); }
+    .table-wrap{
+      border:1px solid var(--line);
+      border-radius: var(--r-lg);
+      overflow:hidden;
+      background: rgba(255,255,255,.82);
+      box-shadow: var(--shadow-soft);
+    }
+    .table-tools{
+      padding: 12px 14px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      background: linear-gradient(180deg, rgba(214,234,212,.35), rgba(255,255,255,.80));
+    }
+    .chip{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.78);
+      border-radius:999px;
+      padding:8px 10px;
+      font-weight:800;
+      font-size:12px;
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .chip.active{
+      background: rgba(0,115,140,.12);
+      border-color: rgba(0,115,140,.22);
+      color: var(--t-700);
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 180px;
+    }
+    label{ font-size:12px; color: var(--muted); font-weight:800; letter-spacing:.02em; }
+    input, select, textarea{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:10px 12px;
+      background: rgba(255,255,255,.86);
+      font:inherit;
+    }
+    textarea{ min-height:110px; resize:vertical; }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding: 12px var(--pad-lg);
+      border-bottom:1px solid var(--line);
+      background: rgba(255,255,255,.75);
+    }
+    .tabs label{
+      cursor:pointer;
+      padding: 9px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(214,234,212,.35);
+      color: var(--g-900);
+      font-size:12px;
+      font-weight:900;
+      user-select:none;
+    }
+    .tabs label:hover{ transform: translateY(-1px); }
+    .tab-panels{ padding: var(--pad-lg); }
+    .tab-panels > section{ display:none; }
+    .tabs input{ display:none; }
+    /* AO tabs */
+    #ao_t_overview:checked ~ .tab-panels #ao_overview,
+    #ao_t_docs:checked ~ .tab-panels #ao_docs,
+    #ao_t_criteria:checked ~ .tab-panels #ao_criteria,
+    #ao_t_submissions:checked ~ .tab-panels #ao_submissions,
+    #ao_t_clarif:checked ~ .tab-panels #ao_clarif,
+    #ao_t_eval:checked ~ .tab-panels #ao_eval,
+    #ao_t_award:checked ~ .tab-panels #ao_award,
+    #ao_t_audit:checked ~ .tab-panels #ao_audit { display:block; }
+
+    /* Submission tabs */
+    #sub_t_admin:checked ~ .tab-panels #sub_admin,
+    #sub_t_tech:checked ~ .tab-panels #sub_tech,
+    #sub_t_fin:checked ~ .tab-panels #sub_fin,
+    #sub_t_eval:checked ~ .tab-panels #sub_eval,
+    #sub_t_hist:checked ~ .tab-panels #sub_hist { display:block; }
+
+    /* Pills / alerts */
+    .alert{
+      border:1px solid var(--line);
+      background: rgba(214,234,212,.45);
+      border-radius: var(--r-lg);
+      padding: 14px 16px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .alert .mark{
+      width:36px; height:36px;
+      border-radius: 14px;
+      background: rgba(0,115,140,.14);
+      display:grid; place-items:center;
+      color: var(--t-700);
+      font-weight:1000;
+    }
+    .alert b{ display:block; margin-bottom:4px; }
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .item{
+      border:1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255,255,255,.80);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .item .meta{ flex:1; min-width:0; }
+    .item .meta b{ display:block; }
+    .item .meta small{ display:block; color:var(--muted); margin-top:2px; }
+    .item .right{ display:flex; gap:10px; align-items:center; }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .timeline{
+      border:1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255,255,255,.82);
+      overflow:hidden;
+      box-shadow: var(--shadow-soft);
+    }
+    .timeline .trow{
+      display:flex;
+      gap:12px;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      align-items:flex-start;
+    }
+    .timeline .trow:last-child{ border-bottom:0; }
+    .timeline .dot2{
+      width:14px; height:14px;
+      border-radius:999px;
+      background: var(--t-200);
+      margin-top:4px;
+      box-shadow: 0 0 0 5px rgba(129,176,178,.14);
+    }
+    .timeline .trow b{ display:block; }
+    .timeline .trow small{ display:block; color:var(--muted); margin-top:2px; }
+
+    details.menu{
+      position:relative;
+    }
+    details.menu summary{
+      list-style:none;
+      cursor:pointer;
+      user-select:none;
+    }
+    details.menu summary::-webkit-details-marker{ display:none; }
+    details.menu .dropdown{
+      position:absolute;
+      right:0;
+      top:48px;
+      width:260px;
+      border:1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(255,255,255,.96);
+      box-shadow: var(--shadow);
+      padding: 10px;
+    }
+    .dropdown a{
+      display:flex;
+      gap:10px;
+      padding:10px 10px;
+      border-radius: 12px;
+      color: var(--text);
+      border:1px solid transparent;
+      font-weight:800;
+    }
+    .dropdown a:hover{
+      background: rgba(214,234,212,.35);
+      border-color: rgba(0,115,140,.16);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .layout{ grid-template-columns: 1fr; }
+      .sidebar{ position:relative; height:auto; }
+      .crumbs{ min-width:0; }
+      .search{ display:none; }
+      .split{ grid-template-columns: 1fr; }
+      .grid.cols-4{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid.cols-3{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid.cols-2{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <h2>EL-MIZAN</h2>
+          <small>Service Contractant</small>
+        </div>
+      </div>
+
+      <div class="nav" id="nav">
+        <div class="group-title">Overview</div>
+        <a href="#dashboard" data-title="Dashboard" data-path="Overview / Dashboard"><span class="dot"></span>Dashboard</a>
+
+        <div class="group-title">Procurement</div>
+        <a href="#appels" data-title="Appels d’Offres" data-path="Procurement / Appels d’Offres"><span class="dot"></span>Appels d’Offres <span class="pill">12</span></a>
+        <a href="#ao-create" data-title="Create Appel d’Offres" data-path="Procurement / Create AO"><span class="dot"></span>Create AO</a>
+        <a href="#submissions" data-title="Submissions" data-path="Procurement / Submissions"><span class="dot"></span>Submissions</a>
+        <a href="#clarifications" data-title="Clarifications" data-path="Procurement / Clarifications"><span class="dot"></span>Clarifications <span class="pill">5</span></a>
+        <a href="#opening-eval" data-title="Opening & Evaluation" data-path="Procurement / Opening & Evaluation"><span class="dot"></span>Opening & Evaluation</a>
+        <a href="#awards" data-title="Awards & Publications" data-path="Procurement / Awards & Publications"><span class="dot"></span>Awards & Publications</a>
+        <a href="#recours" data-title="Recours" data-path="Procurement / Recours"><span class="dot"></span>Recours</a>
+
+        <div class="group-title">Analytics</div>
+        <a href="#reports" data-title="Reports" data-path="Analytics / Reports"><span class="dot"></span>Reports</a>
+
+        <div class="group-title">Organization</div>
+        <a href="#org-panel" data-title="Organization Control Panel" data-path="Organization / Control Panel"><span class="dot"></span>Control Panel</a>
+        <a href="#org-members" data-title="Members" data-path="Organization / Members"><span class="dot"></span>Members</a>
+        <a href="#org-invites" data-title="Invitations" data-path="Organization / Invitations"><span class="dot"></span>Invitations <span class="pill">3</span></a>
+      </div>
+
+      <div style="margin-top:14px; padding:12px; border-radius: var(--r-lg); background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);">
+        <div style="font-weight:900; font-size:12px; letter-spacing:.06em; text-transform:uppercase;">Security</div>
+        <div class="hint" style="color:rgba(255,255,255,.78);">High-impact actions require 2FA and are fully audited.</div>
+        <div class="row" style="margin-top:10px;">
+          <span class="badge blue" style="background:rgba(129,176,178,.20); border-color:rgba(129,176,178,.28);">2FA: Enabled</span>
+          <span class="badge gray" style="background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.18); color:rgba(255,255,255,.82);">Audit: On</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main shell -->
+    <div class="shell">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="crumbs">
+          <h1 id="pageTitle">Dashboard</h1>
+          <div class="path" id="pagePath">Overview / Dashboard</div>
+        </div>
+
+        <div class="search">
+          <input type="search" placeholder="Search Appels d’Offres, submissions, operators…" aria-label="Global search" />
+        </div>
+
+        <div class="actions">
+          <div class="select" title="Organization">
+            <span style="color:var(--muted); font-weight:900; font-size:12px;">Org</span>
+            <select aria-label="Organization switcher">
+              <option>Direction Achats — Wilaya</option>
+              <option>Service Marchés — Campus</option>
+            </select>
+          </div>
+
+          <button class="iconbtn" aria-label="Notifications" title="Notifications">
+            <!-- bell -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z" stroke="currentColor" stroke-width="1.8" />
+            </svg>
+          </button>
+
+          <details class="menu">
+            <summary class="avatar" aria-label="Profile menu">
+              <div class="pic"></div>
+              <div>
+                <b>SC Admin</b>
+                <small>sc.admin@org.dz</small>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="margin-left:4px;">
+                <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </summary>
+            <div class="dropdown" role="menu" aria-label="Profile dropdown">
+              <a href="#org-panel"><span class="badge blue">Org</span> Organization settings</a>
+              <a href="#org-members"><span class="badge blue">Team</span> Members & roles</a>
+              <a href="#"><span class="badge gray">2FA</span> Security & 2FA</a>
+              <a href="#"><span class="badge gray">Help</span> Help & documentation</a>
+              <a href="#"><span class="badge warn">Exit</span> Log out</a>
+            </div>
+          </details>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="content">
+
+        <!-- ===================== DASHBOARD ===================== -->
+        <section id="dashboard" class="page" data-title="Dashboard" data-path="Overview / Dashboard">
+          <div class="grid cols-4">
+            <div class="kpi">
+              <b>12</b>
+              <div class="label">Active Appels d’Offres</div>
+              <div class="trend">+2 this month</div>
+            </div>
+            <div class="kpi">
+              <b>38</b>
+              <div class="label">Submissions received</div>
+              <div class="trend">+7 this week</div>
+            </div>
+            <div class="kpi">
+              <b>6</b>
+              <div class="label">Under evaluation</div>
+              <div class="trend">3 due soon</div>
+            </div>
+            <div class="kpi">
+              <b>5</b>
+              <div class="label">Pending clarifications</div>
+              <div class="trend">Respond today</div>
+            </div>
+          </div>
+
+          <div class="split" style="margin-top:14px;">
+            <div class="card">
+              <div class="hd">
+                <h3>My urgent actions</h3>
+                <div class="row">
+                  <span class="badge blue">Today</span>
+                  <button class="btn ghost" onclick="location.hash='#appels'">Go to AOs</button>
+                </div>
+              </div>
+              <div class="bd">
+                <ul class="list">
+                  <li class="item">
+                    <span class="badge warn">Draft</span>
+                    <div class="meta">
+                      <b>AO-2026-014 — Server Infrastructure Upgrade</b>
+                      <small>Missing: Criteria configured • Deadline: Mar 03, 2026</small>
+                    </div>
+                    <div class="right">
+                      <button class="btn secondary" onclick="location.hash='#ao-detail'">Review</button>
+                      <button class="btn primary" title="Publish requires 2FA">Publish</button>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <span class="badge blue">Opening</span>
+                    <div class="meta">
+                      <b>AO-2026-009 — Campus Network Equipment</b>
+                      <small>Opening session in 3h • Financial envelope locked until official time</small>
+                    </div>
+                    <div class="right">
+                      <button class="btn primary" onclick="location.hash='#opening-eval'">Start session</button>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <span class="badge gray">Q/R</span>
+                    <div class="meta">
+                      <b>5 clarifications unanswered</b>
+                      <small>Operators are waiting — Publish answers to all when ready</small>
+                    </div>
+                    <div class="right">
+                      <button class="btn secondary" onclick="location.hash='#clarifications'">Reply</button>
+                    </div>
+                  </li>
+                </ul>
+
+                <div class="alert" style="margin-top:14px;">
+                  <div class="mark">i</div>
+                  <div>
+                    <b>Tip</b>
+                    <div class="muted">Use the <b>Readiness checklist</b> inside each AO before publishing to avoid missing documents, dates, or criteria.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd">
+                <h3>Upcoming timeline</h3>
+                <button class="btn ghost" onclick="location.hash='#reports'">View reports</button>
+              </div>
+              <div class="bd" style="padding:0;">
+                <div class="timeline">
+                  <div class="trow">
+                    <div class="dot2"></div>
+                    <div>
+                      <b>Submission deadline — AO-2026-011</b>
+                      <small>Feb 25, 2026 • 23:59 (server time)</small>
+                    </div>
+                    <div class="spacer"></div>
+                    <span class="badge warn">2 days</span>
+                  </div>
+                  <div class="trow">
+                    <div class="dot2"></div>
+                    <div>
+                      <b>Opening session — AO-2026-009</b>
+                      <small>Feb 20, 2026 • 16:00</small>
+                    </div>
+                    <div class="spacer"></div>
+                    <button class="btn primary" style="padding:8px 12px;" onclick="location.hash='#opening-eval'">Start</button>
+                  </div>
+                  <div class="trow">
+                    <div class="dot2"></div>
+                    <div>
+                      <b>Evaluation deadline — AO-2026-005</b>
+                      <small>Feb 28, 2026 • 18:00</small>
+                    </div>
+                    <div class="spacer"></div>
+                    <span class="badge blue">In progress</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px;">
+            <div class="hd">
+              <h3>Quick actions</h3>
+              <span class="hint">The fastest way to get work done.</span>
+            </div>
+            <div class="bd">
+              <div class="row">
+                <button class="btn primary" onclick="location.hash='#ao-create'">+ Create an Appel d’Offres</button>
+                <button class="btn secondary" onclick="location.hash='#org-invites'">Invite members</button>
+                <button class="btn ghost" onclick="location.hash='#submissions'">View submissions</button>
+                <button class="btn ghost" onclick="location.hash='#awards'">Publish results</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== APPELS D’OFFRES LIST ===================== -->
+        <section id="appels" class="page" data-title="Appels d’Offres" data-path="Procurement / Appels d’Offres">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Procurement</div>
+              <div class="hint">Create, manage, and publish AOs. All critical actions require 2FA and are audited.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn primary" onclick="location.hash='#ao-create'">+ Create Appel d’Offres</button>
+            <button class="btn ghost">Export list</button>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-tools">
+              <span class="chip active">All</span>
+              <span class="chip">Draft</span>
+              <span class="chip">Published</span>
+              <span class="chip">Submission open</span>
+              <span class="chip">Under evaluation</span>
+              <span class="chip">Awarded</span>
+
+              <span class="spacer"></span>
+
+              <div class="field" style="min-width:220px;">
+                <label>Search</label>
+                <input type="search" placeholder="AO title or reference…" />
+              </div>
+              <div class="field">
+                <label>Type</label>
+                <select>
+                  <option>All types</option>
+                  <option>Open tender</option>
+                  <option>Limited tender</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Date range</label>
+                <select>
+                  <option>Any time</option>
+                  <option>This month</option>
+                  <option>Last 3 months</option>
+                </select>
+              </div>
+            </div>
+
+            <table aria-label="Appels d’Offres table">
+              <thead>
+                <tr>
+                  <th>Reference / Title</th>
+                  <th>Status</th>
+                  <th>Deadlines</th>
+                  <th>Submissions</th>
+                  <th>Last activity</th>
+                  <th style="width:170px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>AO-2026-014</b><div class="muted">Server Infrastructure Upgrade</div></td>
+                  <td><span class="badge warn">Draft</span></td>
+                  <td><div><b>Submit:</b> Mar 03</div><div class="muted"><b>Open:</b> Mar 04</div></td>
+                  <td><b>0</b><div class="muted">Not published</div></td>
+                  <td>Today • 09:15</td>
+                  <td>
+                    <div class="row">
+                      <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#ao-detail'">Open</button>
+                      <details class="menu">
+                        <summary class="btn ghost" style="padding:8px 12px;">More ▾</summary>
+                        <div class="dropdown">
+                          <a href="#ao-detail" onclick="location.hash='#ao-detail'"><span class="badge gray">Edit</span> Edit AO</a>
+                          <a href="#"><span class="badge blue">Preview</span> Preview public page</a>
+                          <a href="#"><span class="badge warn">2FA</span> Publish (requires 2FA)</a>
+                          <a href="#"><span class="badge gray">Copy</span> Duplicate</a>
+                          <a href="#"><span class="badge gray">Archive</span> Archive</a>
+                        </div>
+                      </details>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><b>AO-2026-009</b><div class="muted">Campus Network Equipment</div></td>
+                  <td><span class="badge blue">Submission open</span></td>
+                  <td><div><b>Submit:</b> Feb 20 • 15:59</div><div class="muted"><b>Open:</b> Feb 20 • 16:00</div></td>
+                  <td><b>14</b><div class="muted">3 drafts</div></td>
+                  <td>Yesterday • 18:22</td>
+                  <td>
+                    <div class="row">
+                      <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#ao-detail'">Open</button>
+                      <button class="btn primary" style="padding:8px 12px;" onclick="location.hash='#opening-eval'">Start opening</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><b>AO-2026-005</b><div class="muted">IT Helpdesk Outsourcing</div></td>
+                  <td><span class="badge gray">Under evaluation</span></td>
+                  <td><div><b>Submit:</b> Feb 10</div><div class="muted"><b>Eval due:</b> Feb 28</div></td>
+                  <td><b>9</b><div class="muted">All submitted</div></td>
+                  <td>Feb 19 • 12:04</td>
+                  <td>
+                    <div class="row">
+                      <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#ao-detail'">Open</button>
+                      <button class="btn ghost" style="padding:8px 12px;" onclick="location.hash='#opening-eval'">Track evaluation</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><b>AO-2026-001</b><div class="muted">Office Supplies</div></td>
+                  <td><span class="badge green">Awarded</span></td>
+                  <td><div><b>Submit:</b> Jan 12</div><div class="muted"><b>Published:</b> Jan 20</div></td>
+                  <td><b>26</b><div class="muted">Completed</div></td>
+                  <td>Jan 20 • 11:30</td>
+                  <td>
+                    <div class="row">
+                      <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#awards'">View result</button>
+                      <button class="btn ghost" style="padding:8px 12px;">Archive</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== AO DETAIL (WORK COCKPIT) ===================== -->
+        <section id="ao-detail" class="page" data-title="Appel d’Offres — AO-2026-009" data-path="Procurement / Appels d’Offres / AO-2026-009">
+          <div class="card">
+            <div class="hd">
+              <div>
+                <h3 style="margin:0;">AO-2026-009 — Campus Network Equipment</h3>
+                <div class="hint">Status: <span class="badge blue">Submission open</span> • Countdown: <b>Closes in 02h 18m</b> (server time)</div>
+              </div>
+              <div class="row">
+                <button class="btn ghost">Preview public page</button>
+                <button class="btn secondary">Edit AO</button>
+                <button class="btn primary" title="Requires 2FA">Publish</button>
+                <details class="menu">
+                  <summary class="btn ghost">More ▾</summary>
+                  <div class="dropdown">
+                    <a href="#"><span class="badge gray">Report</span> Generate report</a>
+                    <a href="#"><span class="badge gray">Export</span> Export AO package</a>
+                    <a href="#"><span class="badge gray">Archive</span> Archive AO</a>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+              <input type="radio" name="ao_tabs" id="ao_t_overview" checked>
+              <label for="ao_t_overview">Overview</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_docs">
+              <label for="ao_t_docs">Documents</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_criteria">
+              <label for="ao_t_criteria">Criteria & Rules</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_submissions">
+              <label for="ao_t_submissions">Submissions</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_clarif">
+              <label for="ao_t_clarif">Clarifications</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_eval">
+              <label for="ao_t_eval">Opening & Evaluation</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_award">
+              <label for="ao_t_award">Award / Decision</label>
+
+              <input type="radio" name="ao_tabs" id="ao_t_audit">
+              <label for="ao_t_audit">Audit trail</label>
+            </div>
+
+            <div class="tab-panels">
+
+              <!-- Overview -->
+              <section id="ao_overview">
+                <div class="split">
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Readiness checklist</h3><span class="badge blue">3/5 complete</span></div>
+                    <div class="bd">
+                      <ul class="list">
+                        <li class="item"><span class="badge green">✓</span><div class="meta"><b>Basic info</b><small>Title, reference, type</small></div></li>
+                        <li class="item"><span class="badge green">✓</span><div class="meta"><b>Dates set</b><small>Submission & opening times (server time)</small></div></li>
+                        <li class="item"><span class="badge warn">•</span><div class="meta"><b>Documents uploaded</b><small>Missing: “Cahier des charges (final)”</small></div><button class="btn secondary" style="padding:8px 12px;">Upload</button></li>
+                        <li class="item"><span class="badge warn">•</span><div class="meta"><b>Criteria configured</b><small>Weights not validated</small></div><button class="btn secondary" style="padding:8px 12px;">Configure</button></li>
+                        <li class="item"><span class="badge gray">•</span><div class="meta"><b>Public preview</b><small>Review transparency view before publish</small></div><button class="btn ghost" style="padding:8px 12px;">Preview</button></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Timeline</h3><button class="btn ghost" style="padding:8px 12px;">Edit dates</button></div>
+                    <div class="bd" style="padding:0;">
+                      <div class="timeline">
+                        <div class="trow"><div class="dot2"></div><div><b>Published</b><small>Feb 14, 2026 • 10:00</small></div><div class="spacer"></div><span class="badge gray">Done</span></div>
+                        <div class="trow"><div class="dot2"></div><div><b>Submission closes</b><small>Feb 20, 2026 • 15:59</small></div><div class="spacer"></div><span class="badge warn">Soon</span></div>
+                        <div class="trow"><div class="dot2"></div><div><b>Opening session</b><small>Feb 20, 2026 • 16:00</small></div><div class="spacer"></div><button class="btn primary" style="padding:8px 12px;" onclick="location.hash='#opening-eval'">Start</button></div>
+                        <div class="trow"><div class="dot2"></div><div><b>Evaluation deadline</b><small>Feb 27, 2026 • 18:00</small></div><div class="spacer"></div><span class="badge blue">Planned</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin-top:14px; box-shadow:none;">
+                  <div class="hd"><h3>AO summary</h3><span class="badge gray">Internal view</span></div>
+                  <div class="bd">
+                    <div class="grid cols-3">
+                      <div><label>Type</label><div><b>Open tender</b></div></div>
+                      <div><label>Estimated amount</label><div><b>12,500,000 DZD</b></div></div>
+                      <div><label>Service contractant</label><div><b>Direction Achats — Wilaya</b></div></div>
+                    </div>
+                    <div class="grid cols-2" style="margin-top:12px;">
+                      <div><label>Visibility</label><div class="row"><span class="badge blue">Public</span><span class="badge gray">Internal notes available</span></div></div>
+                      <div><label>Owners</label><div class="row"><span class="badge gray">SC Admin</span><span class="badge gray">AO Manager</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Documents -->
+              <section id="ao_docs">
+                <div class="row" style="margin-bottom:12px;">
+                  <div class="alert" style="flex:1;">
+                    <div class="mark">⬆</div>
+                    <div>
+                      <b>Upload documents</b>
+                      <div class="muted">Drag & drop into your upload zone, then set visibility: <b>Public</b> or <b>Internal</b>.</div>
+                    </div>
+                  </div>
+                  <button class="btn primary">+ Add document</button>
+                  <button class="btn ghost">Download all</button>
+                </div>
+
+                <div class="table-wrap">
+                  <div class="table-tools">
+                    <span class="chip active">All</span>
+                    <span class="chip">Public</span>
+                    <span class="chip">Internal</span>
+                    <span class="spacer"></span>
+                    <div class="field" style="min-width:240px;">
+                      <label>Search docs</label>
+                      <input placeholder="Filename, tag…" />
+                    </div>
+                  </div>
+                  <table aria-label="Documents list">
+                    <thead>
+                      <tr>
+                        <th>Document</th>
+                        <th>Visibility</th>
+                        <th>Version</th>
+                        <th>Uploaded</th>
+                        <th style="width:260px;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><b>Cahier_des_charges_v2.pdf</b><div class="muted">Technical specifications</div></td>
+                        <td><span class="badge blue">Public</span></td>
+                        <td><span class="badge gray">v2</span></td>
+                        <td>Feb 16 • 14:10</td>
+                        <td class="row">
+                          <button class="btn ghost" style="padding:8px 12px;">Preview</button>
+                          <button class="btn secondary" style="padding:8px 12px;">Replace</button>
+                          <button class="btn ghost" style="padding:8px 12px;">Set visibility</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><b>Annexes.xlsx</b><div class="muted">Bill of quantities</div></td>
+                        <td><span class="badge blue">Public</span></td>
+                        <td><span class="badge gray">v1</span></td>
+                        <td>Feb 16 • 14:12</td>
+                        <td class="row">
+                          <button class="btn ghost" style="padding:8px 12px;">Download</button>
+                          <button class="btn ghost" style="padding:8px 12px;">Preview</button>
+                          <button class="btn secondary" style="padding:8px 12px;">Replace</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><b>Internal_notes.md</b><div class="muted">Internal evaluation guidance</div></td>
+                        <td><span class="badge gray">Internal</span></td>
+                        <td><span class="badge gray">v3</span></td>
+                        <td>Feb 18 • 09:00</td>
+                        <td class="row">
+                          <button class="btn ghost" style="padding:8px 12px;">View</button>
+                          <button class="btn ghost" style="padding:8px 12px;">Set visibility</button>
+                          <button class="btn danger" style="padding:8px 12px;">Remove</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- Criteria -->
+              <section id="ao_criteria">
+                <div class="split">
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Weights & scoring</h3><button class="btn primary" style="padding:8px 12px;">Edit criteria</button></div>
+                    <div class="bd">
+                      <div class="grid cols-2">
+                        <div class="alert">
+                          <div class="mark">T</div>
+                          <div>
+                            <b>Technical weight</b>
+                            <div class="muted"><b>70%</b> — Must be validated before publish</div>
+                          </div>
+                        </div>
+                        <div class="alert">
+                          <div class="mark">F</div>
+                          <div>
+                            <b>Financial weight</b>
+                            <div class="muted"><b>30%</b> — Financial envelope is encrypted & locked</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card" style="margin-top:14px; box-shadow:none;">
+                        <div class="hd"><h3>Technical criteria (example)</h3><span class="badge gray">Editable</span></div>
+                        <div class="bd">
+                          <ul class="list">
+                            <li class="item"><span class="badge blue">40%</span><div class="meta"><b>Compliance with specs</b><small>Mandatory requirements met</small></div></li>
+                            <li class="item"><span class="badge blue">20%</span><div class="meta"><b>Delivery & support</b><small>SLA, response time, warranty</small></div></li>
+                            <li class="item"><span class="badge blue">10%</span><div class="meta"><b>Experience</b><small>Similar projects references</small></div></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Eligibility rules</h3><button class="btn ghost" style="padding:8px 12px;">Preview scoring</button></div>
+                    <div class="bd">
+                      <div class="field">
+                        <label>Minimum required documents</label>
+                        <textarea>• Registre commerce
+• NIF / NIS
+• CNAS / CASNOS
+• Bank certificate</textarea>
+                      </div>
+                      <div class="row" style="margin-top:10px;">
+                        <span class="badge gray">Auto-check on submission</span>
+                        <span class="badge blue">Admin review available</span>
+                      </div>
+                      <div class="row" style="margin-top:14px;">
+                        <button class="btn secondary">Validate rules</button>
+                        <button class="btn ghost">Reset</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Submissions (inside AO) -->
+              <section id="ao_submissions">
+                <div class="row" style="margin-bottom:12px;">
+                  <span class="badge blue">14 submitted</span>
+                  <span class="badge gray">3 drafts</span>
+                  <span class="badge lock" title="Financial remains locked until opening">Financial: Locked</span>
+                  <div class="spacer"></div>
+                  <button class="btn ghost" onclick="location.hash='#submissions'">Open full submissions page</button>
+                </div>
+
+                <div class="table-wrap">
+                  <div class="table-tools">
+                    <span class="chip active">All</span>
+                    <span class="chip">Submitted</span>
+                    <span class="chip">Draft</span>
+                    <span class="chip">Withdrawn</span>
+                    <span class="spacer"></span>
+                    <div class="field" style="min-width:260px;">
+                      <label>Search operator</label>
+                      <input placeholder="Company name…" />
+                    </div>
+                  </div>
+
+                  <table aria-label="Submissions table">
+                    <thead>
+                      <tr>
+                        <th>Operator</th>
+                        <th>Submission status</th>
+                        <th>Admin docs</th>
+                        <th>Technical</th>
+                        <th>Financial</th>
+                        <th style="width:250px;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><b>NetCom SARL</b><div class="muted">Submitted Feb 19 • 17:10</div></td>
+                        <td><span class="badge blue">Submitted</span></td>
+                        <td><span class="badge green">Complete</span></td>
+                        <td><span class="badge gray">Available</span></td>
+                        <td><span class="badge lock">Locked</span></td>
+                        <td class="row">
+                          <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#submission-detail'">View</button>
+                          <button class="btn ghost" style="padding:8px 12px;">Download admin</button>
+                          <button class="btn ghost" style="padding:8px 12px;">Download tech</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><b>AlgerTel SPA</b><div class="muted">Submitted Feb 19 • 18:02</div></td>
+                        <td><span class="badge blue">Submitted</span></td>
+                        <td><span class="badge warn">Needs review</span></td>
+                        <td><span class="badge gray">Available</span></td>
+                        <td><span class="badge lock">Locked</span></td>
+                        <td class="row">
+                          <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#submission-detail'">View</button>
+                          <button class="btn ghost" style="padding:8px 12px;">Request clarification</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><b>TechWave</b><div class="muted">Draft (not submitted)</div></td>
+                        <td><span class="badge gray">Draft</span></td>
+                        <td><span class="badge gray">—</span></td>
+                        <td><span class="badge gray">—</span></td>
+                        <td><span class="badge gray">—</span></td>
+                        <td class="row">
+                          <button class="btn ghost" style="padding:8px 12px;">View public profile</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- Clarifications -->
+              <section id="ao_clarif">
+                <div class="row" style="margin-bottom:12px;">
+                  <button class="btn primary">+ Post clarification</button>
+                  <button class="btn ghost">Publish answer to all</button>
+                  <div class="spacer"></div>
+                  <span class="badge gray">5 open</span>
+                  <span class="badge blue">2 answered</span>
+                </div>
+
+                <div class="grid cols-2">
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Threads</h3><span class="badge gray">AO-2026-009</span></div>
+                    <div class="bd">
+                      <ul class="list">
+                        <li class="item">
+                          <span class="badge warn">Open</span>
+                          <div class="meta">
+                            <b>Clarification on delivery timeline</b>
+                            <small>From: NetCom SARL • 2h ago</small>
+                          </div>
+                          <button class="btn secondary" style="padding:8px 12px;">Reply</button>
+                        </li>
+                        <li class="item">
+                          <span class="badge warn">Open</span>
+                          <div class="meta">
+                            <b>Can we submit alternative equipment models?</b>
+                            <small>From: AlgerTel SPA • yesterday</small>
+                          </div>
+                          <button class="btn secondary" style="padding:8px 12px;">Reply</button>
+                        </li>
+                        <li class="item">
+                          <span class="badge gray">Resolved</span>
+                          <div class="meta">
+                            <b>Question about required certificates</b>
+                            <small>Answered • Published to all</small>
+                          </div>
+                          <button class="btn ghost" style="padding:8px 12px;">View</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Reply editor</h3><span class="badge blue">Visibility</span></div>
+                    <div class="bd">
+                      <div class="field">
+                        <label>Reply (draft)</label>
+                        <textarea placeholder="Write a clear answer. Decide if it should be public to all operators or private to the requester."></textarea>
+                      </div>
+                      <div class="row" style="margin-top:10px;">
+                        <span class="chip active">Public to all</span>
+                        <span class="chip">Private</span>
+                        <div class="spacer"></div>
+                        <button class="btn secondary">Save draft</button>
+                        <button class="btn primary">Send reply</button>
+                      </div>
+                      <div class="hint">Tip: Prefer public answers when it improves fairness and transparency.</div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Opening & Evaluation -->
+              <section id="ao_eval">
+                <div class="alert" style="margin-bottom:12px;">
+                  <div class="mark">⏱</div>
+                  <div>
+                    <b>Opening sessions are time-locked (server time)</b>
+                    <div class="muted">Financial envelopes stay encrypted and locked until the official opening session starts.</div>
+                  </div>
+                </div>
+
+                <div class="grid cols-2">
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Next session</h3><span class="badge blue">Feb 20 • 16:00</span></div>
+                    <div class="bd">
+                      <div class="row">
+                        <span class="badge lock">Financial locked</span>
+                        <span class="badge gray">Attendance required</span>
+                        <span class="badge gray">2FA required</span>
+                      </div>
+                      <div class="row" style="margin-top:12px;">
+                        <button class="btn primary" onclick="location.hash='#opening-eval'">Start opening session</button>
+                        <button class="btn ghost">View members</button>
+                      </div>
+                      <div class="hint">Starting the session writes an immutable audit entry and registers attendance.</div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Evaluation progress</h3><span class="badge gray">Technical</span></div>
+                    <div class="bd">
+                      <ul class="list">
+                        <li class="item"><span class="badge blue">70%</span><div class="meta"><b>Technical evaluations</b><small>10/14 completed</small></div><button class="btn ghost" style="padding:8px 12px;">Assign</button></li>
+                        <li class="item"><span class="badge lock">Locked</span><div class="meta"><b>Financial evaluations</b><small>Not started (await opening)</small></div><button class="btn ghost" style="padding:8px 12px;" disabled>Locked</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin-top:14px; box-shadow:none;">
+                  <div class="hd"><h3>Assign evaluators</h3><button class="btn secondary" style="padding:8px 12px;">Save</button></div>
+                  <div class="bd">
+                    <div class="grid cols-3">
+                      <div class="field">
+                        <label>Evaluator</label>
+                        <select><option>— Select member —</option><option>Member A (EVAL_TECH)</option><option>Member B (EVAL_TECH)</option></select>
+                      </div>
+                      <div class="field">
+                        <label>Scope</label>
+                        <select><option>Technical</option><option>Administrative</option><option>Financial (locked)</option></select>
+                      </div>
+                      <div class="field">
+                        <label>Deadline</label>
+                        <input type="date" value="2026-02-27" />
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top:12px;">
+                      <button class="btn primary">+ Add assignment</button>
+                      <span class="hint">Only approved members appear here. Financial assignments become active after opening.</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Award -->
+              <section id="ao_award">
+                <div class="alert" style="margin-bottom:12px;">
+                  <div class="mark">✓</div>
+                  <div>
+                    <b>Award is available after evaluation completion</b>
+                    <div class="muted">Generate a decision draft, validate award (2FA), and then publish results transparently.</div>
+                  </div>
+                </div>
+
+                <div class="card" style="box-shadow:none;">
+                  <div class="hd"><h3>Ranking (preview)</h3><span class="badge gray">Read-only</span></div>
+                  <div class="bd">
+                    <div class="table-wrap" style="box-shadow:none;">
+                      <table aria-label="Ranking preview">
+                        <thead>
+                          <tr>
+                            <th>Rank</th>
+                            <th>Operator</th>
+                            <th>Technical</th>
+                            <th>Financial</th>
+                            <th>Total</th>
+                            <th>Decision</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr><td><b>1</b></td><td><b>NetCom SARL</b></td><td>84/100</td><td><span class="badge lock">Locked</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">Pending</span></td></tr>
+                          <tr><td><b>2</b></td><td><b>AlgerTel SPA</b></td><td>81/100</td><td><span class="badge lock">Locked</span></td><td><span class="badge gray">—</span></td><td><span class="badge gray">Pending</span></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="row" style="margin-top:14px;">
+                      <button class="btn secondary">Generate decision draft</button>
+                      <button class="btn primary" title="Requires 2FA">Validate award</button>
+                      <button class="btn ghost">Publish results</button>
+                      <span class="spacer"></span>
+                      <span class="hint">Publishing exposes only transparency-allowed data to the public portal.</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Audit -->
+              <section id="ao_audit">
+                <div class="row" style="margin-bottom:12px;">
+                  <span class="badge gray">Immutable</span>
+                  <span class="badge blue">Hash-chained logs</span>
+                  <div class="spacer"></div>
+                  <button class="btn ghost">Export audit</button>
+                </div>
+
+                <div class="table-wrap">
+                  <div class="table-tools">
+                    <div class="field">
+                      <label>Filter action</label>
+                      <select><option>All actions</option><option>Publish</option><option>Document upload</option><option>Opening session</option></select>
+                    </div>
+                    <div class="field">
+                      <label>User</label>
+                      <select><option>All users</option><option>SC Admin</option><option>AO Manager</option></select>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="field" style="min-width:240px;">
+                      <label>Search</label>
+                      <input placeholder="Keyword…" />
+                    </div>
+                  </div>
+
+                  <table aria-label="Audit trail table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                        <th>IP</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Feb 19 • 18:22</td><td><b>SC Admin</b></td><td><span class="badge gray">Document upload</span></td><td>Added Annexes.xlsx (Public)</td><td>196.12.xxx.xxx</td></tr>
+                      <tr><td>Feb 18 • 09:00</td><td><b>AO Manager</b></td><td><span class="badge gray">Edit</span></td><td>Updated evaluation deadline</td><td>196.12.xxx.xxx</td></tr>
+                      <tr><td>Feb 14 • 10:00</td><td><b>SC Admin</b></td><td><span class="badge warn">Publish</span></td><td>AO published (2FA verified)</td><td>196.12.xxx.xxx</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== CREATE AO WIZARD ===================== -->
+        <section id="ao-create" class="page" data-title="Create Appel d’Offres" data-path="Procurement / Create AO">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Wizard</div>
+              <div class="hint">A step-by-step flow to prevent missing documents, dates, or criteria.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost">Save draft</button>
+            <button class="btn primary" title="Publish becomes available at step 6">Continue</button>
+          </div>
+
+          <div class="card">
+            <div class="hd">
+              <h3>AO Creation Wizard</h3>
+              <span class="badge gray">Auto-save enabled</span>
+            </div>
+            <div class="bd">
+              <div class="alert" style="margin-bottom:14px;">
+                <div class="mark">1</div>
+                <div>
+                  <b>Step 1 — Basic information</b>
+                  <div class="muted">Define AO identity and the owning service contractant.</div>
+                </div>
+              </div>
+              <div class="grid cols-2">
+                <div class="field">
+                  <label>AO Reference</label>
+                  <input placeholder="AO-2026-___" value="AO-2026-015" />
+                </div>
+                <div class="field">
+                  <label>Title</label>
+                  <input placeholder="e.g., Network Equipment Acquisition" />
+                </div>
+                <div class="field">
+                  <label>Type</label>
+                  <select>
+                    <option>Open tender</option>
+                    <option>Limited tender</option>
+                    <option>Consultation</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Estimated amount (DZD)</label>
+                  <input placeholder="12,500,000" />
+                </div>
+              </div>
+
+              <div class="alert" style="margin:18px 0 14px;">
+                <div class="mark">2</div>
+                <div>
+                  <b>Step 2 — Dates & timeline</b>
+                  <div class="muted">All deadlines use server time. Opening sessions are time-locked.</div>
+                </div>
+              </div>
+              <div class="grid cols-3">
+                <div class="field">
+                  <label>Publication date</label>
+                  <input type="datetime-local" value="2026-02-20T10:00" />
+                </div>
+                <div class="field">
+                  <label>Submission deadline</label>
+                  <input type="datetime-local" value="2026-03-03T23:59" />
+                </div>
+                <div class="field">
+                  <label>Opening session</label>
+                  <input type="datetime-local" value="2026-03-04T10:00" />
+                </div>
+              </div>
+
+              <div class="alert" style="margin:18px 0 14px;">
+                <div class="mark">3</div>
+                <div>
+                  <b>Step 3 — Documents</b>
+                  <div class="muted">Upload required documents and set visibility (Public / Internal).</div>
+                </div>
+              </div>
+              <div class="row">
+                <button class="btn primary">+ Add document</button>
+                <button class="btn ghost">Add required documents pack</button>
+                <span class="hint">Recommended pack: Cahier des charges, Annexes, Templates, Public notice.</span>
+              </div>
+
+              <div class="alert" style="margin:18px 0 14px;">
+                <div class="mark">4</div>
+                <div>
+                  <b>Step 4 — Criteria</b>
+                  <div class="muted">Configure technical/financial weights and the scoring model.</div>
+                </div>
+              </div>
+              <div class="grid cols-2">
+                <div class="field">
+                  <label>Technical weight (%)</label>
+                  <input value="70" />
+                </div>
+                <div class="field">
+                  <label>Financial weight (%)</label>
+                  <input value="30" />
+                </div>
+              </div>
+              <div class="row" style="margin-top:12px;">
+                <button class="btn secondary">Preview scoring</button>
+                <button class="btn ghost">Add criterion</button>
+              </div>
+
+              <div class="alert" style="margin:18px 0 14px;">
+                <div class="mark">5</div>
+                <div>
+                  <b>Step 5 — Public preview</b>
+                  <div class="muted">Review exactly what the public will see to ensure transparency.</div>
+                </div>
+              </div>
+              <div class="row">
+                <button class="btn ghost">Preview public page</button>
+                <button class="btn secondary">Run readiness checklist</button>
+              </div>
+
+              <div class="alert" style="margin:18px 0 14px;">
+                <div class="mark">6</div>
+                <div>
+                  <b>Step 6 — Publish (2FA required)</b>
+                  <div class="muted">Confirm AO details, then publish. Publishing is recorded in audit logs.</div>
+                </div>
+              </div>
+              <div class="row">
+                <button class="btn primary" title="Requires 2FA">Publish now</button>
+                <button class="btn ghost">Request publish approval</button>
+                <span class="hint">If your process requires a publisher role, use “Request approval”.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== SUBMISSIONS LIST ===================== -->
+        <section id="submissions" class="page" data-title="Submissions" data-path="Procurement / Submissions">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Submissions</div>
+              <div class="hint">Monitor submissions. Financial envelope stays locked until the opening session.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost">Export list</button>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-tools">
+              <span class="chip active">All</span>
+              <span class="chip">Submitted</span>
+              <span class="chip">Draft</span>
+              <span class="chip">Withdrawn</span>
+
+              <span class="spacer"></span>
+
+              <div class="field">
+                <label>AO</label>
+                <select>
+                  <option>All AOs</option>
+                  <option>AO-2026-009 — Campus Network Equipment</option>
+                  <option>AO-2026-005 — IT Helpdesk Outsourcing</option>
+                </select>
+              </div>
+              <div class="field" style="min-width:260px;">
+                <label>Search company</label>
+                <input placeholder="Operator name…" />
+              </div>
+            </div>
+
+            <table aria-label="Submissions list table">
+              <thead>
+                <tr>
+                  <th>AO</th>
+                  <th>Operator</th>
+                  <th>Status</th>
+                  <th>Received</th>
+                  <th>Admin docs</th>
+                  <th>Technical</th>
+                  <th>Financial</th>
+                  <th style="width:220px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>AO-2026-009</b></td>
+                  <td><b>NetCom SARL</b></td>
+                  <td><span class="badge blue">Submitted</span></td>
+                  <td>Feb 19 • 17:10</td>
+                  <td><span class="badge green">Complete</span></td>
+                  <td><span class="badge gray">Available</span></td>
+                  <td><span class="badge lock">Locked</span></td>
+                  <td class="row">
+                    <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#submission-detail'">View</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Package</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>AO-2026-009</b></td>
+                  <td><b>AlgerTel SPA</b></td>
+                  <td><span class="badge blue">Submitted</span></td>
+                  <td>Feb 19 • 18:02</td>
+                  <td><span class="badge warn">Needs review</span></td>
+                  <td><span class="badge gray">Available</span></td>
+                  <td><span class="badge lock">Locked</span></td>
+                  <td class="row">
+                    <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#submission-detail'">View</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Clarify</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>AO-2026-005</b></td>
+                  <td><b>HelpNow Services</b></td>
+                  <td><span class="badge gray">Under evaluation</span></td>
+                  <td>Feb 09 • 11:45</td>
+                  <td><span class="badge green">Complete</span></td>
+                  <td><span class="badge blue">Scored</span></td>
+                  <td><span class="badge blue">Scored</span></td>
+                  <td class="row">
+                    <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#submission-detail'">View</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Audit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== SUBMISSION DETAIL ===================== -->
+        <section id="submission-detail" class="page" data-title="Submission — NetCom SARL" data-path="Procurement / Submissions / NetCom SARL">
+          <div class="card">
+            <div class="hd">
+              <div>
+                <h3 style="margin:0;">Submission — NetCom SARL</h3>
+                <div class="hint">AO: <b>AO-2026-009</b> • Status: <span class="badge blue">Submitted</span> • Received: Feb 19 • 17:10</div>
+              </div>
+              <div class="row">
+                <button class="btn ghost">Download package</button>
+                <button class="btn secondary">Request clarification</button>
+                <button class="btn primary" title="Saves compliance decision">Save decision</button>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <input type="radio" name="sub_tabs" id="sub_t_admin" checked>
+              <label for="sub_t_admin">Administrative docs</label>
+
+              <input type="radio" name="sub_tabs" id="sub_t_tech">
+              <label for="sub_t_tech">Technical offer</label>
+
+              <input type="radio" name="sub_tabs" id="sub_t_fin">
+              <label for="sub_t_fin">Financial offer</label>
+
+              <input type="radio" name="sub_tabs" id="sub_t_eval">
+              <label for="sub_t_eval">Evaluation</label>
+
+              <input type="radio" name="sub_tabs" id="sub_t_hist">
+              <label for="sub_t_hist">History / audit</label>
+            </div>
+
+            <div class="tab-panels">
+              <section id="sub_admin">
+                <div class="row" style="margin-bottom:12px;">
+                  <span class="badge green">Docs complete</span>
+                  <div class="spacer"></div>
+                  <button class="btn secondary">Mark compliant</button>
+                  <button class="btn danger">Mark non-compliant</button>
+                </div>
+
+                <div class="table-wrap">
+                  <table aria-label="Admin docs">
+                    <thead>
+                      <tr>
+                        <th>Document</th>
+                        <th>Provided</th>
+                        <th>Verified</th>
+                        <th>Notes</th>
+                        <th style="width:220px;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td><b>Registre de commerce</b></td><td><span class="badge green">Yes</span></td><td><span class="badge warn">Pending</span></td><td class="muted">Check validity dates</td><td class="row"><button class="btn ghost" style="padding:8px 12px;">View</button><button class="btn secondary" style="padding:8px 12px;">Verify</button></td></tr>
+                      <tr><td><b>NIF / NIS</b></td><td><span class="badge green">Yes</span></td><td><span class="badge green">Verified</span></td><td class="muted">OK</td><td class="row"><button class="btn ghost" style="padding:8px 12px;">View</button></td></tr>
+                      <tr><td><b>CNAS / CASNOS</b></td><td><span class="badge green">Yes</span></td><td><span class="badge warn">Pending</span></td><td class="muted">Needs confirmation</td><td class="row"><button class="btn ghost" style="padding:8px 12px;">View</button><button class="btn secondary" style="padding:8px 12px;">Verify</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <section id="sub_tech">
+                <div class="row" style="margin-bottom:12px;">
+                  <span class="badge gray">Technical envelope</span>
+                  <div class="spacer"></div>
+                  <button class="btn ghost">Download technical offer</button>
+                  <button class="btn secondary">Add note</button>
+                </div>
+                <div class="card" style="box-shadow:none;">
+                  <div class="hd"><h3>Technical summary (example)</h3><span class="badge gray">Read-only</span></div>
+                  <div class="bd">
+                    <p class="muted" style="margin-top:0;">
+                      Provided equipment models meet baseline specs. Delivery plan: 21 days. SLA: 4h response.
+                    </p>
+                    <div class="row">
+                      <span class="badge blue">Attachments: 4</span>
+                      <span class="badge gray">Hash verified</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section id="sub_fin">
+                <div class="alert">
+                  <div class="mark">🔒</div>
+                  <div>
+                    <b>Financial offer is locked</b>
+                    <div class="muted">Will be available only during the official opening session (server time) with proper permissions and 2FA.</div>
+                  </div>
+                </div>
+                <div class="row" style="margin-top:14px;">
+                  <button class="btn ghost" disabled title="Locked until opening">Download financial offer</button>
+                  <button class="btn primary" onclick="location.hash='#opening-eval'">Go to opening session</button>
+                </div>
+              </section>
+
+              <section id="sub_eval">
+                <div class="grid cols-2">
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Scores</h3><span class="badge gray">Draft</span></div>
+                    <div class="bd">
+                      <div class="grid cols-2">
+                        <div class="alert"><div class="mark">T</div><div><b>Technical</b><div class="muted"><b>84/100</b></div></div></div>
+                        <div class="alert"><div class="mark">F</div><div><b>Financial</b><div class="muted"><span class="badge lock">Locked</span></div></div></div>
+                      </div>
+                      <div class="row" style="margin-top:12px;">
+                        <button class="btn secondary">Edit technical score</button>
+                        <button class="btn ghost">Assign evaluator</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none;">
+                    <div class="hd"><h3>Evaluator notes</h3><span class="badge blue">Internal</span></div>
+                    <div class="bd">
+                      <div class="field">
+                        <label>Add note</label>
+                        <textarea placeholder="Write evaluation notes…"></textarea>
+                      </div>
+                      <div class="row" style="margin-top:10px;">
+                        <button class="btn secondary">Save</button>
+                        <button class="btn ghost">Export notes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section id="sub_hist">
+                <div class="table-wrap">
+                  <table aria-label="Submission history">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Event</th>
+                        <th>Actor</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Feb 19 • 17:10</td><td><span class="badge blue">Submitted</span></td><td>NetCom SARL</td><td>Submission receipt generated</td></tr>
+                      <tr><td>Feb 19 • 17:12</td><td><span class="badge gray">Integrity</span></td><td>System</td><td>Hashes recorded, financial encrypted</td></tr>
+                      <tr><td>Feb 19 • 18:05</td><td><span class="badge warn">Review</span></td><td>SC Admin</td><td>Admin docs pending verification</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== CLARIFICATIONS (GLOBAL) ===================== -->
+        <section id="clarifications" class="page" data-title="Clarifications" data-path="Procurement / Clarifications">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Q/R</div>
+              <div class="hint">Reply quickly. Prefer public answers when it improves fairness and transparency.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn primary">+ New clarification</button>
+            <button class="btn ghost">Publish answers to all</button>
+          </div>
+
+          <div class="grid cols-2">
+            <div class="card">
+              <div class="hd"><h3>Open questions</h3><span class="badge warn">5</span></div>
+              <div class="bd">
+                <ul class="list">
+                  <li class="item">
+                    <span class="badge gray">AO-2026-009</span>
+                    <div class="meta">
+                      <b>Delivery timeline clarification</b>
+                      <small>NetCom SARL • 2h ago</small>
+                    </div>
+                    <button class="btn secondary" style="padding:8px 12px;">Reply</button>
+                  </li>
+                  <li class="item">
+                    <span class="badge gray">AO-2026-014</span>
+                    <div class="meta">
+                      <b>Can we propose equivalent servers?</b>
+                      <small>TechWave • yesterday</small>
+                    </div>
+                    <button class="btn secondary" style="padding:8px 12px;">Reply</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd"><h3>Reply</h3><span class="badge blue">Visibility</span></div>
+              <div class="bd">
+                <div class="field">
+                  <label>Select AO</label>
+                  <select>
+                    <option>AO-2026-009</option>
+                    <option>AO-2026-014</option>
+                  </select>
+                </div>
+                <div class="field" style="margin-top:10px;">
+                  <label>Answer</label>
+                  <textarea placeholder="Write your answer…"></textarea>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                  <span class="chip active">Public to all</span>
+                  <span class="chip">Private</span>
+                  <div class="spacer"></div>
+                  <button class="btn secondary">Save draft</button>
+                  <button class="btn primary">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== OPENING & EVALUATION (GLOBAL) ===================== -->
+        <section id="opening-eval" class="page" data-title="Opening & Evaluation" data-path="Procurement / Opening & Evaluation">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Sessions</div>
+              <div class="hint">Sessions are time-locked (server time). Financial envelopes require permissions and 2FA.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost">View attendance</button>
+            <button class="btn primary" title="Requires 2FA">Start session</button>
+          </div>
+
+          <div class="split">
+            <div class="card">
+              <div class="hd"><h3>Next opening session</h3><span class="badge blue">AO-2026-009</span></div>
+              <div class="bd">
+                <div class="grid cols-2">
+                  <div><label>Starts at</label><div><b>Feb 20, 2026 • 16:00</b></div><div class="hint">Server time</div></div>
+                  <div><label>Envelopes</label><div class="row"><span class="badge gray">Admin</span><span class="badge gray">Tech</span><span class="badge lock">Financial</span></div></div>
+                </div>
+                <div class="row" style="margin-top:14px;">
+                  <button class="btn primary" title="2FA required">Start opening session</button>
+                  <button class="btn secondary">Register attendance</button>
+                  <button class="btn ghost">Open AO cockpit</button>
+                </div>
+                <div class="hint">When session starts, the system unlocks what’s allowed and records an immutable audit entry.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd"><h3>Evaluation tasks</h3><span class="badge gray">This week</span></div>
+              <div class="bd">
+                <ul class="list">
+                  <li class="item"><span class="badge gray">AO-2026-005</span><div class="meta"><b>Technical evaluations pending</b><small>3 offers remaining</small></div><button class="btn secondary" style="padding:8px 12px;">Assign</button></li>
+                  <li class="item"><span class="badge blue">AO-2026-009</span><div class="meta"><b>Prepare opening checklist</b><small>Attendance & 2FA verification</small></div><button class="btn ghost" style="padding:8px 12px;">Open</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px;">
+            <div class="hd"><h3>Opening checklist</h3><span class="badge gray">Before starting</span></div>
+            <div class="bd">
+              <div class="grid cols-3">
+                <div class="item"><span class="badge green">✓</span><div class="meta"><b>Members validated</b><small>All members have roles</small></div></div>
+                <div class="item"><span class="badge green">✓</span><div class="meta"><b>2FA confirmed</b><small>Required roles are protected</small></div></div>
+                <div class="item"><span class="badge warn">•</span><div class="meta"><b>Minutes template</b><small>Not generated</small></div><button class="btn secondary" style="padding:8px 12px;">Generate</button></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== AWARDS & PUBLICATIONS ===================== -->
+        <section id="awards" class="page" data-title="Awards & Publications" data-path="Procurement / Awards & Publications">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Decisions</div>
+              <div class="hint">Validate awards (2FA) and publish results with the right transparency level.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost">Export decisions</button>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-tools">
+              <span class="chip active">All</span>
+              <span class="chip">Pending</span>
+              <span class="chip">Validated</span>
+              <span class="chip">Published</span>
+              <span class="spacer"></span>
+              <div class="field">
+                <label>AO</label>
+                <select>
+                  <option>All</option>
+                  <option>AO-2026-009</option>
+                  <option>AO-2026-001</option>
+                </select>
+              </div>
+            </div>
+
+            <table aria-label="Awards table">
+              <thead>
+                <tr>
+                  <th>AO</th>
+                  <th>Status</th>
+                  <th>Winner</th>
+                  <th>Decision</th>
+                  <th>Publication</th>
+                  <th style="width:260px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>AO-2026-009</b><div class="muted">Campus Network Equipment</div></td>
+                  <td><span class="badge gray">Pending</span></td>
+                  <td><span class="badge gray">—</span></td>
+                  <td class="muted">Await financial opening</td>
+                  <td><span class="badge gray">Not published</span></td>
+                  <td class="row">
+                    <button class="btn secondary" style="padding:8px 12px;" onclick="location.hash='#ao-detail'">Open AO</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Generate draft</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>AO-2026-001</b><div class="muted">Office Supplies</div></td>
+                  <td><span class="badge green">Validated</span></td>
+                  <td><b>AlphaTrade</b></td>
+                  <td class="muted">Decision signed</td>
+                  <td><span class="badge blue">Published</span></td>
+                  <td class="row">
+                    <button class="btn ghost" style="padding:8px 12px;">View public page</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Download decision</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== RECOURS ===================== -->
+        <section id="recours" class="page" data-title="Recours" data-path="Procurement / Recours">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Recours</div>
+              <div class="hint">Review appeals, record decisions, and notify operators. All actions are audited.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn primary">+ New decision</button>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-tools">
+              <span class="chip active">All</span>
+              <span class="chip">Open</span>
+              <span class="chip">Under review</span>
+              <span class="chip">Resolved</span>
+              <span class="spacer"></span>
+              <div class="field" style="min-width:260px;">
+                <label>Search</label>
+                <input placeholder="AO / operator / keyword…" />
+              </div>
+            </div>
+
+            <table aria-label="Recours table">
+              <thead>
+                <tr>
+                  <th>AO</th>
+                  <th>Operator</th>
+                  <th>Status</th>
+                  <th>Submitted</th>
+                  <th>Assigned</th>
+                  <th style="width:260px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>AO-2026-001</b></td>
+                  <td><b>BetaSupplies</b></td>
+                  <td><span class="badge warn">Under review</span></td>
+                  <td>Jan 22</td>
+                  <td>SC Admin</td>
+                  <td class="row">
+                    <button class="btn secondary" style="padding:8px 12px;">Open</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Request docs</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>AO-2026-003</b></td>
+                  <td><b>GammaTech</b></td>
+                  <td><span class="badge green">Resolved</span></td>
+                  <td>Feb 02</td>
+                  <td>Legal</td>
+                  <td class="row">
+                    <button class="btn ghost" style="padding:8px 12px;">View decision</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Audit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== REPORTS ===================== -->
+        <section id="reports" class="page" data-title="Reports" data-path="Analytics / Reports">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Analytics</div>
+              <div class="hint">Quick summaries for workload, timelines, and outcomes.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost">Export CSV</button>
+            <button class="btn ghost">Export PDF</button>
+          </div>
+
+          <div class="grid cols-3">
+            <div class="card">
+              <div class="hd"><h3>Workload</h3><span class="badge gray">30 days</span></div>
+              <div class="bd">
+                <div class="muted">Active AOs, submissions received, evaluation pipeline.</div>
+                <div class="row" style="margin-top:10px;">
+                  <span class="badge blue">Active: 12</span>
+                  <span class="badge gray">Submissions: 38</span>
+                  <span class="badge gray">Awards: 4</span>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="hd"><h3>Deadlines</h3><span class="badge warn">Attention</span></div>
+              <div class="bd">
+                <ul class="list">
+                  <li class="item"><span class="badge warn">Soon</span><div class="meta"><b>AO-2026-009 closes today</b><small>02h 18m remaining</small></div></li>
+                  <li class="item"><span class="badge gray">Planned</span><div class="meta"><b>AO-2026-014 publish readiness</b><small>Missing criteria validation</small></div></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card">
+              <div class="hd"><h3>Transparency</h3><span class="badge blue">Public</span></div>
+              <div class="bd">
+                <div class="muted">Published results, public documents, Q/R publication rates.</div>
+                <div class="row" style="margin-top:10px;">
+                  <span class="badge blue">Results published: 8</span>
+                  <span class="badge gray">Public docs: 52</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px;">
+            <div class="hd"><h3>Detailed report builder</h3><span class="badge gray">Filters</span></div>
+            <div class="bd">
+              <div class="grid cols-3">
+                <div class="field">
+                  <label>AO status</label>
+                  <select><option>All</option><option>Draft</option><option>Published</option><option>Under evaluation</option><option>Awarded</option></select>
+                </div>
+                <div class="field">
+                  <label>Date range</label>
+                  <select><option>Last 30 days</option><option>Last 90 days</option><option>This year</option></select>
+                </div>
+                <div class="field">
+                  <label>Output</label>
+                  <select><option>Summary</option><option>Full details</option><option>Audit included</option></select>
+                </div>
+              </div>
+              <div class="row" style="margin-top:12px;">
+                <button class="btn primary">Generate</button>
+                <button class="btn ghost">Preview</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== ORG CONTROL PANEL ===================== -->
+        <section id="org-panel" class="page" data-title="Organization Control Panel" data-path="Organization / Control Panel">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Organization</div>
+              <div class="hint">Manage your service contractant profile, members, invitations, and security settings.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost">View audit</button>
+          </div>
+
+          <div class="grid cols-3">
+            <div class="card">
+              <div class="hd"><h3>Profile</h3><span class="badge gray">Org data</span></div>
+              <div class="bd">
+                <div class="muted">Organization name, contacts, official identifiers.</div>
+                <div class="row" style="margin-top:12px;">
+                  <button class="btn secondary">Edit</button>
+                  <button class="btn ghost">View</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd"><h3>Members</h3><span class="badge blue">Team</span></div>
+              <div class="bd">
+                <div class="muted">Add employees, manage roles, check 2FA status.</div>
+                <div class="row" style="margin-top:12px;">
+                  <button class="btn primary" onclick="location.hash='#org-members'">Open members</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd"><h3>Invitations</h3><span class="badge warn">Pending</span></div>
+              <div class="bd">
+                <div class="muted">Generate invitation links or invite by email. Track pending acceptances.</div>
+                <div class="row" style="margin-top:12px;">
+                  <button class="btn primary" onclick="location.hash='#org-invites'">Manage invites</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid cols-2" style="margin-top:14px;">
+            <div class="card">
+              <div class="hd"><h3>Roles & permissions</h3><span class="badge gray">RBAC</span></div>
+              <div class="bd">
+                <div class="muted">Define what team members can do (create/edit/publish/open/evaluate/award).</div>
+                <div class="row" style="margin-top:12px;">
+                  <button class="btn ghost">Open roles</button>
+                  <button class="btn ghost">Permission matrix</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="hd"><h3>Security</h3><span class="badge blue">2FA</span></div>
+              <div class="bd">
+                <div class="muted">Enforce 2FA on critical actions. Monitor suspicious activity via audit logs.</div>
+                <div class="row" style="margin-top:12px;">
+                  <button class="btn secondary">Require 2FA for publish/open</button>
+                  <button class="btn ghost">Security logs</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== ORG MEMBERS ===================== -->
+        <section id="org-members" class="page" data-title="Members" data-path="Organization / Members">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Members</div>
+              <div class="hint">Employees/users belonging to your service contractant organization.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn secondary" onclick="location.hash='#org-invites'">+ Invite member</button>
+            <button class="btn ghost">Import list</button>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-tools">
+              <span class="chip active">All</span>
+              <span class="chip">Active</span>
+              <span class="chip">Pending</span>
+              <span class="chip">Suspended</span>
+
+              <span class="spacer"></span>
+
+              <div class="field" style="min-width:260px;">
+                <label>Search</label>
+                <input placeholder="Name or email…" />
+              </div>
+              <div class="field">
+                <label>Role</label>
+                <select><option>All roles</option><option>SC Admin</option><option>AO Manager</option><option>AO Editor</option><option>Viewer</option></select>
+              </div>
+            </div>
+
+            <table aria-label="Members table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>2FA</th>
+                  <th>Last login</th>
+                  <th style="width:240px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>SC Admin</b><div class="muted">Organization owner</div></td>
+                  <td>sc.admin@org.dz</td>
+                  <td><span class="badge blue">SC Admin</span></td>
+                  <td><span class="badge green">Active</span></td>
+                  <td><span class="badge blue">Enabled</span></td>
+                  <td>Today • 09:12</td>
+                  <td class="row">
+                    <button class="btn ghost" style="padding:8px 12px;">Change role</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Audit</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><b>AO Manager</b><div class="muted">Manages AO lifecycle</div></td>
+                  <td>ao.manager@org.dz</td>
+                  <td><span class="badge gray">AO Manager</span></td>
+                  <td><span class="badge green">Active</span></td>
+                  <td><span class="badge warn">Disabled</span></td>
+                  <td>Feb 19 • 12:04</td>
+                  <td class="row">
+                    <button class="btn secondary" style="padding:8px 12px;">Require 2FA</button>
+                    <button class="btn ghost" style="padding:8px 12px;">Change role</button>
+                    <button class="btn danger" style="padding:8px 12px;">Deactivate</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><b>New Employee</b><div class="muted">Invited</div></td>
+                  <td>new.user@org.dz</td>
+                  <td><span class="badge gray">AO Editor</span></td>
+                  <td><span class="badge warn">Pending</span></td>
+                  <td><span class="badge gray">—</span></td>
+                  <td class="muted">—</td>
+                  <td class="row">
+                    <button class="btn ghost" style="padding:8px 12px;">Resend invite</button>
+                    <button class="btn danger" style="padding:8px 12px;">Revoke</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================== ORG INVITATIONS (LINK + PENDING ACCEPTANCES) ===================== -->
+        <section id="org-invites" class="page" data-title="Invitations" data-path="Organization / Invitations">
+          <div class="row" style="margin-bottom:14px;">
+            <div>
+              <div class="badge blue">Invitations</div>
+              <div class="hint">Generate an invitation link or invite by email. Track awaiting acceptations below.</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="btn ghost" onclick="location.hash='#org-members'">Go to members</button>
+          </div>
+
+          <!-- A) Generate link -->
+          <div class="card">
+            <div class="hd">
+              <h3>Generate invitation link</h3>
+              <span class="badge gray">Recommended: single use</span>
+            </div>
+            <div class="bd">
+              <div class="grid cols-3">
+                <div class="field">
+                  <label>Role to grant</label>
+                  <select>
+                    <option>AO Editor</option>
+                    <option>AO Manager</option>
+                    <option>Viewer</option>
+                    <option>Publisher (requires 2FA)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Link expiry</label>
+                  <select>
+                    <option>24 hours</option>
+                    <option selected>72 hours</option>
+                    <option>7 days</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Max uses</label>
+                  <select>
+                    <option selected>1</option>
+                    <option>5</option>
+                    <option>Unlimited</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top:12px;">
+                <span class="chip active">Require 2FA on first login</span>
+                <span class="chip">Allow without 2FA (not recommended)</span>
+              </div>
+
+              <div class="row" style="margin-top:14px;">
+                <button class="btn primary">Generate link</button>
+                <button class="btn ghost">Revoke link</button>
+              </div>
+
+              <div class="field" style="margin-top:14px;">
+                <label>Generated link</label>
+                <input value="https://portal.el-mizan.dz/invite/claim?token=EXAMPLE_TOKEN" readonly />
+                <div class="row" style="margin-top:10px;">
+                  <button class="btn secondary">Copy link</button>
+                  <span class="hint">Share only with trusted people. Link is single-use and expires in 72h.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- B) Invite by email -->
+          <div class="card" style="margin-top:14px;">
+            <div class="hd">
+              <h3>Invite by email (recommended)</h3>
+              <span class="badge blue">More controlled</span>
+            </div>
+            <div class="bd">
+              <div class="grid cols-3">
+                <div class="field" style="grid-column: span 2;">
+                  <label>Email</label>
+                  <input placeholder="employee@org.dz" />
+                </div>
+                <div class="field">
+                  <label>Role</label>
+                  <select>
+                    <option>AO Editor</option>
+                    <option>AO Manager</option>
+                    <option>Viewer</option>
+                    <option>Publisher (requires 2FA)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" style="margin-top:12px;">
+                <button class="btn primary">Send invite</button>
+                <span class="hint">The recipient must accept and set password + 2FA if required.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- C) Awaiting acceptations -->
+          <div class="card" style="margin-top:14px;">
+            <div class="hd">
+              <h3>Awaiting acceptations</h3>
+              <span class="badge warn">3 pending</span>
+            </div>
+            <div class="bd" style="padding:0;">
+              <div class="table-wrap" style="border:0; border-radius:0; box-shadow:none;">
+                <div class="table-tools">
+                  <span class="chip active">Pending</span>
+                  <span class="chip">Accepted</span>
+                  <span class="chip">Expired</span>
+                  <span class="spacer"></span>
+                  <div class="field" style="min-width:260px;">
+                    <label>Search</label>
+                    <input placeholder="Email…" />
+                  </div>
+                </div>
+
+                <table aria-label="Pending invitations table">
+                  <thead>
+                    <tr>
+                      <th>Email / Link</th>
+                      <th>Role</th>
+                      <th>Invited by</th>
+                      <th>Created</th>
+                      <th>Expires</th>
+                      <th>Status</th>
+                      <th style="width:270px;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><b>new.user@org.dz</b><div class="muted">Email invite</div></td>
+                      <td><span class="badge gray">AO Editor</span></td>
+                      <td>SC Admin</td>
+                      <td>Today • 09:20</td>
+                      <td>+72h</td>
+                      <td><span class="badge warn">Sent</span></td>
+                      <td class="row">
+                        <button class="btn ghost" style="padding:8px 12px;">Resend</button>
+                        <button class="btn ghost" style="padding:8px 12px;">Extend</button>
+                        <button class="btn danger" style="padding:8px 12px;">Revoke</button>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><b>Link invite</b><div class="muted">Single-use token</div></td>
+                      <td><span class="badge gray">AO Manager</span></td>
+                      <td>SC Admin</td>
+                      <td>Feb 19 • 11:10</td>
+                      <td>Feb 22</td>
+                      <td><span class="badge warn">Opened</span></td>
+                      <td class="row">
+                        <button class="btn ghost" style="padding:8px 12px;">Copy</button>
+                        <button class="btn ghost" style="padding:8px 12px;">Extend</button>
+                        <button class="btn danger" style="padding:8px 12px;">Revoke</button>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><b>finance.viewer@org.dz</b><div class="muted">Email invite</div></td>
+                      <td><span class="badge gray">Viewer</span></td>
+                      <td>AO Manager</td>
+                      <td>Feb 18 • 15:05</td>
+                      <td>Feb 21</td>
+                      <td><span class="badge warn">Sent</span></td>
+                      <td class="row">
+                        <button class="btn ghost" style="padding:8px 12px;">Resend</button>
+                        <button class="btn danger" style="padding:8px 12px;">Revoke</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- D) Recently accepted (optional) -->
+          <div class="card" style="margin-top:14px;">
+            <div class="hd"><h3>Recently accepted</h3><span class="badge gray">Last 30 days</span></div>
+            <div class="bd">
+              <ul class="list">
+                <li class="item"><span class="badge green">Accepted</span><div class="meta"><b>qa.user@org.dz</b><small>AO Editor • Accepted Feb 17</small></div><button class="btn ghost" style="padding:8px 12px;">View</button></li>
+                <li class="item"><span class="badge green">Accepted</span><div class="meta"><b>legal.user@org.dz</b><small>Viewer • Accepted Feb 12</small></div><button class="btn ghost" style="padding:8px 12px;">View</button></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- (Hidden) Default help page fallback -->
+        <section id="help" class="page" data-title="Help" data-path="Help">
+          <div class="card">
+            <div class="hd"><h3>Help</h3><span class="badge gray">Docs</span></div>
+            <div class="bd">
+              <p class="muted">Use the sidebar to navigate. This file is a UI mock: buttons and flows are represented, not functional.</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Simple in-page router: show the section matching the hash; highlight active nav; update title/breadcrumb.
+    const pages = [...document.querySelectorAll('.page')];
+    const navLinks = [...document.querySelectorAll('#nav a')];
+    const titleEl = document.getElementById('pageTitle');
+    const pathEl  = document.getElementById('pagePath');
+
+    function setActiveFromHash() {
+      let hash = location.hash || '#dashboard';
+      if (!document.querySelector(hash)) hash = '#dashboard';
+
+      pages.forEach(p => p.classList.toggle('active', '#'+p.id === hash));
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === hash));
+
+      const activePage = document.querySelector(hash);
+      titleEl.textContent = activePage?.dataset?.title || 'Dashboard';
+      pathEl.textContent  = activePage?.dataset?.path  || 'Overview / Dashboard';
+
+      // Close any open dropdown menus when navigating.
+      document.querySelectorAll('details.menu[open]').forEach(d => d.removeAttribute('open'));
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    window.addEventListener('hashchange', setActiveFromHash);
+
+    // Ensure default page
+    if (!location.hash) location.hash = '#dashboard';
+    setActiveFromHash();
+  </script>
+</body>
+</html>
