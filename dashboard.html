@@ -1,0 +1,107 @@
+<!-- dashboard.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — Service Contractant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <b>EL-MIZAN</b>
+          <small>Direction Achats — Wilaya</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="dashboard.html"><span class="dot"></span>Dashboard</a>
+        <a href="procurement.html"><span class="dot"></span>Procurement</a>
+        <a href="org_panel.html"><span class="dot"></span>Organization</a>
+      </nav>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Dashboard</h1>
+          <div class="meta">Core actions for your service contractant</div>
+        </div>
+        <div class="spacer"></div>
+        <div class="user">
+          <div class="pic"></div>
+          <div>
+            <b>SC Admin</b>
+            <small>2FA enabled</small>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="grid cols-3">
+          <div class="kpi">
+            <b>12</b>
+            <div class="label">Active Appels d’Offres</div>
+          </div>
+          <div class="kpi">
+            <b>38</b>
+            <div class="label">Submissions received</div>
+          </div>
+          <div class="kpi">
+            <b>5</b>
+            <div class="label">Clarifications pending</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div class="hd">
+            <h2>What you should do next</h2>
+            <span class="badge blue">Today</span>
+          </div>
+          <div class="bd">
+            <div class="row">
+              <span class="badge warn">Draft AO</span>
+              <span>AO-2026-014 needs criteria + documents.</span>
+              <div class="spacer"></div>
+              <a class="btn secondary" href="ao_detail.html">Open</a>
+            </div>
+            <div style="height:10px;"></div>
+            <div class="row">
+              <span class="badge blue">Opening</span>
+              <span>AO-2026-009 opening session is scheduled.</span>
+              <div class="spacer"></div>
+              <a class="btn primary" href="ao_detail.html">Go to session</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div class="hd">
+            <h2>Quick access</h2>
+          </div>
+          <div class="bd">
+            <div class="grid cols-3 linkcards">
+              <a href="appels.html">
+                <b>Appels d’Offres</b>
+                <small>Create / publish / manage AOs</small>
+              </a>
+              <a href="submissions.html">
+                <b>Submissions</b>
+                <small>Review submitted offers</small>
+              </a>
+              <a href="org_invites.html">
+                <b>Invite members</b>
+                <small>Generate link + pending acceptances</small>
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

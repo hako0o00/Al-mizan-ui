@@ -1,0 +1,87 @@
+<!-- ao_create.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create AO — Service Contractant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <b>EL-MIZAN</b>
+          <small>Direction Achats — Wilaya</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html"><span class="dot"></span>Dashboard</a>
+        <a class="active" href="procurement.html"><span class="dot"></span>Procurement</a>
+        <a href="org_panel.html"><span class="dot"></span>Organization</a>
+      </nav>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Create Appel d’Offres</h1>
+          <div class="meta">Minimal form (draft first)</div>
+        </div>
+        <div class="spacer"></div>
+        <a class="btn ghost" href="appels.html">Back</a>
+      </header>
+
+      <main class="content">
+        <div class="card">
+          <div class="hd">
+            <h2>New AO</h2>
+            <div class="row">
+              <button class="btn secondary">Save draft</button>
+              <button class="btn primary">Create</button>
+            </div>
+          </div>
+          <div class="bd">
+            <div class="grid cols-2">
+              <div class="field">
+                <label>Reference</label>
+                <input placeholder="AO-2026-___" />
+              </div>
+              <div class="field">
+                <label>Title</label>
+                <input placeholder="e.g., Campus Network Equipment" />
+              </div>
+              <div class="field">
+                <label>Submission deadline</label>
+                <input type="datetime-local" />
+              </div>
+              <div class="field">
+                <label>Opening session</label>
+                <input type="datetime-local" />
+              </div>
+              <div class="field">
+                <label>Technical weight (%)</label>
+                <input placeholder="70" />
+              </div>
+              <div class="field">
+                <label>Financial weight (%)</label>
+                <input placeholder="30" />
+              </div>
+            </div>
+
+            <div style="height:14px;"></div>
+
+            <div class="row">
+              <button class="btn primary">+ Add document</button>
+              <span class="hint">Upload AO documents (public/internal) after creating the draft.</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

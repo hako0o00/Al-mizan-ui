@@ -1,0 +1,127 @@
+<!-- submission_detail.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Submission Detail — Service Contractant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <b>EL-MIZAN</b>
+          <small>Direction Achats — Wilaya</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html"><span class="dot"></span>Dashboard</a>
+        <a class="active" href="procurement.html"><span class="dot"></span>Procurement</a>
+        <a href="org_panel.html"><span class="dot"></span>Organization</a>
+      </nav>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Submission — NetCom SARL</h1>
+          <div class="meta">AO-2026-009 • <span class="badge blue">Submitted</span></div>
+        </div>
+        <div class="spacer"></div>
+        <a class="btn ghost" href="submissions.html">Back</a>
+      </header>
+
+      <main class="content">
+        <details class="section" open>
+          <summary>Administrative docs</summary>
+          <div class="body">
+            <div class="row">
+              <button class="btn secondary">Mark compliant</button>
+              <button class="btn danger">Mark non-compliant</button>
+            </div>
+            <div style="height:10px;"></div>
+            <table class="table" aria-label="Admin docs table">
+              <thead>
+                <tr>
+                  <th>Document</th>
+                  <th>Status</th>
+                  <th style="width:140px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Registre de commerce</b></td><td><span class="badge gray">To verify</span></td><td><button class="btn ghost">View</button></td></tr>
+                <tr><td><b>NIF / NIS</b></td><td><span class="badge blue">Provided</span></td><td><button class="btn ghost">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Technical offer</summary>
+          <div class="body">
+            <div class="row">
+              <button class="btn ghost">Download</button>
+              <span class="hint">Technical documents are accessible according to your process.</span>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Financial offer</summary>
+          <div class="body">
+            <div class="row">
+              <span class="badge lock">Locked</span>
+              <span class="hint">Available only during the opening session.</span>
+              <div class="spacer"></div>
+              <a class="btn primary" href="ao_detail.html">Go to AO session</a>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Evaluation notes</summary>
+          <div class="body">
+            <div class="field">
+              <label>Notes</label>
+              <textarea placeholder="Write notes…"></textarea>
+            </div>
+            <div class="row" style="margin-top:10px;">
+              <button class="btn secondary">Save</button>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>History</summary>
+          <div class="body">
+            <table class="table" aria-label="History table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Event</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Feb 19, 2026</td><td><span class="badge blue">Submitted</span></td></tr>
+                <tr><td>Feb 19, 2026</td><td><span class="badge gray">Financial encrypted</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

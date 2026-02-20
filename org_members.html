@@ -1,0 +1,88 @@
+<!-- org_members.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Members — Service Contractant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <b>EL-MIZAN</b>
+          <small>Direction Achats — Wilaya</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html"><span class="dot"></span>Dashboard</a>
+        <a href="procurement.html"><span class="dot"></span>Procurement</a>
+        <a class="active" href="org_panel.html"><span class="dot"></span>Organization</a>
+      </nav>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Members</h1>
+          <div class="meta">Users inside your organization</div>
+        </div>
+        <div class="spacer"></div>
+        <a class="btn secondary" href="org_invites.html">+ Invite member</a>
+      </header>
+
+      <main class="content">
+        <div class="card">
+          <div class="hd">
+            <h2>List</h2>
+          </div>
+          <div class="bd">
+            <table class="table" aria-label="Members table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>2FA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>SC Admin</b></td>
+                  <td>sc.admin@org.dz</td>
+                  <td><span class="badge blue">Admin</span></td>
+                  <td><span class="badge blue">Active</span></td>
+                  <td><span class="badge gray">Enabled</span></td>
+                </tr>
+                <tr>
+                  <td><b>AO Manager</b></td>
+                  <td>ao.manager@org.dz</td>
+                  <td><span class="badge gray">Manager</span></td>
+                  <td><span class="badge blue">Active</span></td>
+                  <td><span class="badge warn">Disabled</span></td>
+                </tr>
+                <tr>
+                  <td><b>New user</b></td>
+                  <td>new.user@org.dz</td>
+                  <td><span class="badge gray">Editor</span></td>
+                  <td><span class="badge warn">Pending</span></td>
+                  <td><span class="badge gray">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="hint" style="margin-top:12px;">
+              To add members, use the Invitations page.
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

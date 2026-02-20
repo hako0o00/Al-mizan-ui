@@ -1,0 +1,143 @@
+<!-- org_invites.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invitations — Service Contractant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <b>EL-MIZAN</b>
+          <small>Direction Achats — Wilaya</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html"><span class="dot"></span>Dashboard</a>
+        <a href="procurement.html"><span class="dot"></span>Procurement</a>
+        <a class="active" href="org_panel.html"><span class="dot"></span>Organization</a>
+      </nav>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Invitations</h1>
+          <div class="meta">Generate invite link + awaiting acceptations</div>
+        </div>
+        <div class="spacer"></div>
+        <a class="btn ghost" href="org_members.html">Members</a>
+      </header>
+
+      <main class="content">
+        <div class="card">
+          <div class="hd">
+            <h2>Generate invitation link</h2>
+            <span class="badge gray">Single organization</span>
+          </div>
+          <div class="bd">
+            <div class="grid cols-3">
+              <div class="field">
+                <label>Role</label>
+                <select>
+                  <option>Editor</option>
+                  <option>Manager</option>
+                  <option>Viewer</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Expiry</label>
+                <select>
+                  <option>24 hours</option>
+                  <option selected>72 hours</option>
+                  <option>7 days</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Max uses</label>
+                <select>
+                  <option selected>1</option>
+                  <option>5</option>
+                  <option>Unlimited</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="height:10px;"></div>
+
+            <div class="row">
+              <span class="badge gray">Require 2FA on first login</span>
+              <div class="spacer"></div>
+              <button class="btn primary">Generate</button>
+              <button class="btn ghost">Revoke</button>
+            </div>
+
+            <div style="height:12px;"></div>
+
+            <div class="field">
+              <label>Link</label>
+              <input value="https://portal.el-mizan.dz/invite/claim?token=EXAMPLE_TOKEN" readonly />
+            </div>
+
+            <div class="row" style="margin-top:10px;">
+              <button class="btn secondary">Copy link</button>
+              <span class="hint">Share only with trusted people.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px;"></div>
+
+        <div class="card">
+          <div class="hd">
+            <h2>Awaiting acceptations</h2>
+            <span class="badge warn">Pending</span>
+          </div>
+          <div class="bd">
+            <table class="table" aria-label="Pending invites table">
+              <thead>
+                <tr>
+                  <th>Email / Link</th>
+                  <th>Role</th>
+                  <th>Expires</th>
+                  <th>Status</th>
+                  <th style="width:220px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>new.user@org.dz</b></td>
+                  <td><span class="badge gray">Editor</span></td>
+                  <td class="muted">+72h</td>
+                  <td><span class="badge warn">Sent</span></td>
+                  <td class="row">
+                    <button class="btn ghost">Resend</button>
+                    <button class="btn danger">Revoke</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Link invite</b></td>
+                  <td><span class="badge gray">Manager</span></td>
+                  <td class="muted">Feb 22, 2026</td>
+                  <td><span class="badge warn">Opened</span></td>
+                  <td class="row">
+                    <button class="btn ghost">Copy</button>
+                    <button class="btn danger">Revoke</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>

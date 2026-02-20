@@ -1,0 +1,224 @@
+<!-- ao_detail.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AO Detail — Service Contractant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">EM</div>
+        <div>
+          <b>EL-MIZAN</b>
+          <small>Direction Achats — Wilaya</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html"><span class="dot"></span>Dashboard</a>
+        <a class="active" href="procurement.html"><span class="dot"></span>Procurement</a>
+        <a href="org_panel.html"><span class="dot"></span>Organization</a>
+      </nav>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <h1>AO-2026-009</h1>
+          <div class="meta">Campus Network Equipment • <span class="badge blue">Open</span></div>
+        </div>
+        <div class="spacer"></div>
+        <a class="btn ghost" href="appels.html">Back</a>
+        <button class="btn secondary">Edit</button>
+        <button class="btn primary" title="Requires 2FA">Publish</button>
+        <button class="btn ghost">Preview public</button>
+      </header>
+
+      <main class="content">
+        <!-- Keep the page breathable: collapsible sections -->
+        <details class="section" open>
+          <summary>Overview</summary>
+          <div class="body">
+            <div class="grid cols-2">
+              <div>
+                <div class="hint">Submission deadline</div>
+                <b>Feb 20, 2026 • 15:59</b>
+              </div>
+              <div>
+                <div class="hint">Opening session</div>
+                <b>Feb 20, 2026 • 16:00</b>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Documents</summary>
+          <div class="body">
+            <div class="row">
+              <button class="btn primary">+ Add document</button>
+              <span class="hint">Set visibility: Public / Internal</span>
+            </div>
+            <div style="height:10px;"></div>
+            <table class="table" aria-label="Documents table">
+              <thead>
+                <tr>
+                  <th>Document</th>
+                  <th>Visibility</th>
+                  <th style="width:180px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Cahier_des_charges.pdf</b></td>
+                  <td><span class="badge blue">Public</span></td>
+                  <td class="row"><button class="btn ghost">Replace</button></td>
+                </tr>
+                <tr>
+                  <td><b>Internal_notes.md</b></td>
+                  <td><span class="badge gray">Internal</span></td>
+                  <td class="row"><button class="btn ghost">Edit</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Criteria</summary>
+          <div class="body">
+            <div class="row">
+              <span class="badge gray">Technical: 70%</span>
+              <span class="badge gray">Financial: 30%</span>
+              <div class="spacer"></div>
+              <button class="btn secondary">Edit weights</button>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Submissions</summary>
+          <div class="body">
+            <table class="table" aria-label="Submissions table">
+              <thead>
+                <tr>
+                  <th>Operator</th>
+                  <th>Status</th>
+                  <th>Financial</th>
+                  <th style="width:160px;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>NetCom SARL</b></td>
+                  <td><span class="badge blue">Submitted</span></td>
+                  <td><span class="badge lock">Locked</span></td>
+                  <td><a class="btn secondary" href="submission_detail.html">View</a></td>
+                </tr>
+                <tr>
+                  <td><b>AlgerTel SPA</b></td>
+                  <td><span class="badge blue">Submitted</span></td>
+                  <td><span class="badge lock">Locked</span></td>
+                  <td><a class="btn secondary" href="submission_detail.html">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Clarifications</summary>
+          <div class="body">
+            <div class="row">
+              <span class="badge warn">2 open</span>
+              <div class="spacer"></div>
+              <button class="btn primary">+ New clarification</button>
+            </div>
+            <div style="height:10px;"></div>
+
+            <div class="field">
+              <label>Reply</label>
+              <textarea placeholder="Write your answer…"></textarea>
+            </div>
+            <div class="row" style="margin-top:10px;">
+              <button class="btn secondary">Save draft</button>
+              <button class="btn primary">Send</button>
+              <span class="hint">Publish answers when required by transparency rules.</span>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Opening / Evaluation</summary>
+          <div class="body">
+            <div class="row">
+              <span class="badge gray">Time-locked</span>
+              <span class="badge gray">2FA required</span>
+              <div class="spacer"></div>
+              <button class="btn primary">Start opening session</button>
+            </div>
+            <div class="hint">Financial documents become accessible only during the session.</div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Award / Publish results</summary>
+          <div class="body">
+            <div class="row">
+              <button class="btn secondary">Generate decision draft</button>
+              <button class="btn primary" title="Requires 2FA">Validate award</button>
+              <button class="btn ghost">Publish results</button>
+            </div>
+          </div>
+        </details>
+
+        <div style="height:14px;"></div>
+
+        <details class="section">
+          <summary>Audit</summary>
+          <div class="body">
+            <table class="table" aria-label="Audit table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Action</th>
+                  <th>User</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Feb 19, 2026</td>
+                  <td><span class="badge gray">Document upload</span></td>
+                  <td>SC Admin</td>
+                </tr>
+                <tr>
+                  <td>Feb 14, 2026</td>
+                  <td><span class="badge warn">Publish</span></td>
+                  <td>SC Admin</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>
